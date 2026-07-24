@@ -60,8 +60,7 @@ public class SecurityConfig {
     }
 
     @Bean
-    public CorsConfigurationSource corsConfigurationSource() 
-    {
+    public CorsConfigurationSource corsConfigurationSource() {
 
      CorsConfiguration config = new CorsConfiguration();
 
@@ -80,6 +79,7 @@ public class SecurityConfig {
      ));
 
      config.setAllowedHeaders(List.of("*"));
+     config.setExposedHeaders(List.of("*"));
      config.setAllowCredentials(true);
 
      UrlBasedCorsConfigurationSource source =
