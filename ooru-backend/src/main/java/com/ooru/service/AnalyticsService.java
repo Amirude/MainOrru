@@ -1,8 +1,6 @@
 package com.ooru.service;
 
-import com.ooru.model.BookingStatus;
 import com.ooru.model.Payment;
-import com.ooru.model.Shop;
 import com.ooru.repository.*;
 import org.springframework.stereotype.Service;
 

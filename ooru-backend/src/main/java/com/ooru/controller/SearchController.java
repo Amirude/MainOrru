@@ -1,7 +1,5 @@
 package com.ooru.controller;
 
-import com.ooru.model.MenuItem;
-import com.ooru.model.Shop;
 import com.ooru.repository.MenuItemRepository;
 import com.ooru.repository.ShopRepository;
 import org.springframework.http.ResponseEntity;

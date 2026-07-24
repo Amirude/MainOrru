@@ -1,6 +1,4 @@
 package com.ooru.service;
-
-import com.ooru.model.Booking;
 import com.ooru.model.BookingStatus;
 import com.ooru.model.Shop;
 import com.ooru.repository.BookingRepository;
@@ -9,7 +7,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.Duration;
 import java.time.Instant;
-import java.util.Map;
 import java.util.Set;
 
 /**
