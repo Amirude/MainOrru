@@ -25,7 +25,7 @@ public class ServiceCategory {
 
     // JSON array of {id, label, type, options} — the exact field schema the generic booking form
     // renders. NULL for categories with a dedicated page instead (tailor, food, grocery).
-    @Lob
+    @Column(name = "fields_json", columnDefinition = "TEXT")
     private String fieldsJson;
 
     @Column(nullable = false)
