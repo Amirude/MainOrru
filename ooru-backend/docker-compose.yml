@@ -1,0 +1,42 @@
+version: "3.8"
+
+services:
+  db:
+    image: postgres:16
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ooru
+      POSTGRES_USER: ooru
+      POSTGRES_PASSWORD: ooru_dev_password
+    ports:
+      - "5432:5432"
+    volumes:
+      - ooru_pg_data:/var/lib/postgresql/data
+      - ./database/schema.sql:/docker-entrypoint-initdb.d/schema.sql
+
+  backend:
+    build: .
+    restart: unless-stopped
+    depends_on:
+      - db
+    ports:
+      - "8080:8080"
+    environment:
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_NAME: ooru
+      DB_USER: ooru
+      DB_PASSWORD: ooru_dev_password
+      JWT_SECRET: dev-only-secret-change-before-real-deployment-32chars-min
+      RAZORPAY_KEY_ID: rzp_test_placeholder
+      RAZORPAY_KEY_SECRET: placeholder_secret
+      GOOGLE_MAPS_API_KEY: placeholder_maps_key
+      ANTHROPIC_API_KEY: placeholder_anthropic_key
+      ANTHROPIC_MODEL: claude-sonnet-4-5
+      # Set these to real values to get a working admin login on first startup — see
+      # AdminBootstrapRunner.java. Leave blank (as here) and no admin account gets created.
+      ADMIN_BOOTSTRAP_PHONE: ""
+      ADMIN_BOOTSTRAP_PASSWORD: ""
+
+volumes:
+  ooru_pg_data:

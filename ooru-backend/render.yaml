@@ -1,0 +1,56 @@
+# Render "Blueprint" — connect this repo at dashboard.render.com/blueprints and Render reads this
+# file automatically to provision both services. Deploying this way gives you a URL like
+# https://ooru-backend.onrender.com — update ooru-frontend/.env's VITE_API_BASE_URL and
+# SecurityConfig's allowed CORS origins to match your actual frontend URL once you have one.
+#
+# Everything under `envVars` marked sync: false is a secret Render will prompt you to fill in
+# yourself during setup (Razorpay keys, JWT secret, etc.) — nothing here can fill those in for you.
+services:
+  - type: web
+    name: ooru-backend
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    plan: free
+    envVars:
+      - key: DB_HOST
+        fromDatabase:
+          name: ooru-db
+          property: host
+      - key: DB_PORT
+        fromDatabase:
+          name: ooru-db
+          property: port
+      - key: DB_NAME
+        fromDatabase:
+          name: ooru-db
+          property: database
+      - key: DB_USER
+        fromDatabase:
+          name: ooru-db
+          property: user
+      - key: DB_PASSWORD
+        fromDatabase:
+          name: ooru-db
+          property: password
+      - key: JWT_SECRET
+        sync: false
+      - key: RAZORPAY_KEY_ID
+        sync: false
+      - key: RAZORPAY_KEY_SECRET
+        sync: false
+      - key: ANTHROPIC_API_KEY
+        sync: false
+      - key: ANTHROPIC_MODEL
+        value: claude-sonnet-4-5
+      - key: GOOGLE_MAPS_API_KEY
+        sync: false
+      - key: FIREBASE_SERVICE_ACCOUNT_PATH
+        value: ./firebase-service-account.json
+      - key: ADMIN_BOOTSTRAP_PHONE
+        sync: false
+      - key: ADMIN_BOOTSTRAP_PASSWORD
+        sync: false
+
+databases:
+  - name: ooru-db
+    plan: free

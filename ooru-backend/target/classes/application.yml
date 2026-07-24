@@ -1,0 +1,53 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: ooru-backend
+  datasource:
+    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:ooru}
+    username: ${DB_USER:ooru}
+    password: ${DB_PASSWORD:ooru_dev_password}
+  jpa:
+    hibernate:
+      # ddl-auto=validate in production once you're using the SQL migration in database/schema.sql.
+      # "update" is convenient for local development only.
+      ddl-auto: update
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: true
+
+# --- Everything below this line is a real integration point you must supply yourself. ---
+ooru:
+  jwt:
+    # Replace with a long random secret in every real environment. Never commit a real one to source control.
+    secret: ${JWT_SECRET:change-this-to-a-long-random-secret-before-deploying}
+    expiration-ms: 86400000 # 24 hours
+
+  razorpay:
+    # Sign up at https://razorpay.com, complete business KYC, then put real keys here via environment variables.
+    key-id: ${RAZORPAY_KEY_ID:rzp_test_placeholder}
+    key-secret: ${RAZORPAY_KEY_SECRET:placeholder_secret}
+
+  maps:
+    # Google Cloud Console -> enable Maps JavaScript API + Distance Matrix API -> create an API key.
+    google-api-key: ${GOOGLE_MAPS_API_KEY:placeholder_maps_key}
+
+  firebase:
+    # Firebase Console -> Project Settings -> Service Accounts -> generate a private key JSON file.
+    service-account-path: ${FIREBASE_SERVICE_ACCOUNT_PATH:./firebase-service-account.json}
+
+  anthropic:
+    # Get this from console.anthropic.com. Kept server-side only — never expose an API key like
+    # this in frontend code, unlike Razorpay's key-id above which is safe to expose.
+    api-key: ${ANTHROPIC_API_KEY:placeholder_anthropic_key}
+    model: ${ANTHROPIC_MODEL:claude-sonnet-4-5}
+
+  admin-bootstrap:
+    # Set real values for these two via environment variables (never commit them) and restart —
+    # the app creates the first admin account once, hashing the password for real at that point.
+    # See AdminBootstrapRunner.java. Leave both blank and no admin account is created.
+    name: ${ADMIN_BOOTSTRAP_NAME:Platform Admin}
+    phone: ${ADMIN_BOOTSTRAP_PHONE:}
+    password: ${ADMIN_BOOTSTRAP_PASSWORD:}
